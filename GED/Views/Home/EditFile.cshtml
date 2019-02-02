@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "EditFile";
+}
+
+<div class="jumbotron">
+    <h1>Gerenciador de documentos</h1>
+</div>
+
+<hr />
+
+@if (ViewBag.EditSucess == true)
+{
+    <p class="text-success">Edição realizada com sucesso!</p>
+}
+else if (ViewBag.UploadSucess == false)
+{
+    <p class="text-danger">Ocorreu algum problema na edição do arquivo!</p>
+}
+
+@using (Html.BeginForm("EditFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+{
+    <div class="form-group">
+        @Html.Label("Id arquivo: ", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input name="id" type="text" class="col-md-6 control-label" />
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Selecione o arquivo: ", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input name="file" type="file" class="col-md-6 control-label" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Upload" />
+        </div>
+    </div>
+}
