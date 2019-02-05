@@ -42,6 +42,7 @@ namespace GED.Helper
             mimeNames.Add(".oga", "audio/ogg");
             mimeNames.Add(".wav", "audio/x-wav");
             mimeNames.Add(".webm", "video/webm");
+            mimeNames.Add(".csv", "text/csv");
 
             MimeNames = new ReadOnlyDictionary<string, string>(mimeNames);
 
@@ -55,12 +56,20 @@ namespace GED.Helper
         /// <returns>Retorna um <see cref="MediaTypeHeaderValue"/>. Utilize o ToString() para pegar o Mime em string.</returns>
         public static MediaTypeHeaderValue GetMimeNameFromExt(string ext)
         {
-            string value;
+            string value = MimeMapping.GetMimeMapping(ext);
 
-            if (MimeNames.TryGetValue(ext.ToLowerInvariant(), out value))
+            if(value != MediaTypeNames.Application.Octet)
+            {
                 return new MediaTypeHeaderValue(value);
+            }
+            else if (MimeNames.TryGetValue(ext.ToLowerInvariant(), out value))
+            {
+                return new MediaTypeHeaderValue(value);
+            }
             else
+            {
                 return new MediaTypeHeaderValue(MediaTypeNames.Application.Octet);
+            }
         }
 
         /// <summary>

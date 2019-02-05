@@ -134,19 +134,19 @@ namespace GED.Controllers
         public HttpResponseMessage Download(Guid id)
         {
             var stream = new MemoryStream();
-
             var dadosArquivo = context.Arquivos.Where(a => a.ArquivoId == id).SingleOrDefault();
-            File.OpenRead(dadosArquivo.Diretorio + "\\" + dadosArquivo.NomeFisicoReal).CopyTo(stream);
+            string pathFile = dadosArquivo.Diretorio + "\\" + dadosArquivo.NomeFisicoReal;
 
+            if (!File.Exists(pathFile))
+            {//Se arquivo não existir retornar NotFound
+                return Request.CreateResponse(HttpStatusCode.NotFound, id);
+            }
+
+            File.OpenRead(pathFile).CopyTo(stream);
             var result = new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new ByteArrayContent(stream.ToArray())
             };
-            result.Content.Headers.ContentDisposition =
-                new ContentDispositionHeaderValue("attachment")
-                {
-                    FileName = dadosArquivo.NomeArquivo
-                };
             result.Content.Headers.ContentType = new MediaTypeHeaderValue(dadosArquivo.TipoMime.Mime);
 
             return result;
@@ -167,19 +167,19 @@ namespace GED.Controllers
         public HttpResponseMessage Download(Guid id, int versao)
         {
             var stream = new MemoryStream();
-
             var dadosArquivo = context.ArquivoModificacoes.Where(a => a.ArquivoId == id && a.Versao == versao).SingleOrDefault();
-            File.OpenRead(dadosArquivo.Diretorio + "\\" + dadosArquivo.NomeFisicoReal).CopyTo(stream);
+            string pathFile = dadosArquivo.Diretorio + "\\" + dadosArquivo.NomeFisicoReal;
 
+            if (!File.Exists(pathFile))
+            {//Se arquivo não existir retornar NotFound
+                return Request.CreateResponse(HttpStatusCode.NotFound, id);
+            }
+
+            File.OpenRead(pathFile).CopyTo(stream);
             var result = new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new ByteArrayContent(stream.ToArray())
             };
-            result.Content.Headers.ContentDisposition =
-                new ContentDispositionHeaderValue("attachment")
-                {
-                    FileName = dadosArquivo.NomeArquivo
-                };
             result.Content.Headers.ContentType = new MediaTypeHeaderValue(dadosArquivo.Arquivo.TipoMime.Mime);
 
             return result;
