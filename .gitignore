@@ -259,3 +259,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/GED/Files/Imagem/7c5dc239-7730-4a20-8852-23fbbc93e5eb_v1.jpg
+/GED/Files/Imagem/9403d665-ec8a-4643-b7a3-7b54ebcd141a_v1.png
+/GED/Files/Imagem/e12b1740-427a-4392-a4be-38399c26f78f_v1.jpg
+/GED/Files/Musica/d4d5d5b7-8e4a-426f-8d06-490123fc0b49_v1.mp3
